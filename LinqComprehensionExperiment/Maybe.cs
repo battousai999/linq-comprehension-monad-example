@@ -70,6 +70,7 @@ namespace LinqComprehensionExperiment
 
     public static class MaybeExtensions
     {
+        // SelectMany implementation to allow Maybe<T> to be used with Linq query compositions
         public static Maybe<C> SelectMany<A, B, C>(this Maybe<A> a, Func<A, Maybe<B>> func, Func<A, B, C> select)
         {
             var tempValue = a.Bind(func);

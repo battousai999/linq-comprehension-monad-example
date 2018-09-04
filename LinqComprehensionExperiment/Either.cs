@@ -78,6 +78,11 @@ namespace LinqComprehensionExperiment
         }
     }
 
+    /*
+     *  Monads (and types that can participate with Linq query compositions) must be of "kind" * -> *.
+     *  Since Either<L, R> is of kind * -> * -> *, one of its type parameters must be fixed in order to be of kind
+     *  * -> *.
+     */
     public class EitherMonad<R>
     {
         private Either<string, R> either;
@@ -134,6 +139,7 @@ namespace LinqComprehensionExperiment
 
     public static class EitherExtensions
     {
+        // SelectMany implementation to allow EitherMonad<R> to be used with Linq query compositions
         public static EitherMonad<C> SelectMany<A, B, C>(this EitherMonad<A> a, Func<A, EitherMonad<B>> func, Func<A, B, C> select)
         {
             var b = a.Bind(func);
